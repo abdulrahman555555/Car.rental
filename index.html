@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="pageTitle">Apex Drive Dubai — Instant Car Rental & WhatsApp Booking</title>
+  <style>
+    :root {
+      --bg: #0b0f17;
+      --card: #131a26;
+      --card-border: #1f2a3d;
+      --accent: #d4af37; /* Dubai Gold */
+      --accent-hover: #e5c150;
+      --whatsapp: #25d366;
+      --whatsapp-dark: #1ebe5d;
+      --text: #f3f4f6;
+      --muted: #9ca3af;
+      --badge-bg: rgba(212, 175, 55, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding-bottom: 40px;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(180deg, #111827 0%, var(--bg) 100%);
+      border-bottom: 1px solid var(--card-border);
+      padding: 18px 16px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(8px);
+    }
+
+    .nav-wrap {
+      max-width: 1050px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    .brand span {
+      color: var(--accent);
+    }
+
+    .status-pill {
+      background: rgba(37, 211, 102, 0.15);
+      color: var(--whatsapp);
+      border: 1px solid rgba(37, 211, 102, 0.35);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 999px;
+    }
+
+    /* Hero */
+    .hero {
+      max-width: 1050px;
+      margin: 22px auto 16px;
+      padding: 0 16px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 1.65rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 0.92rem;
+      max-width: 600px;
+      margin: 0 auto 14px;
+    }
+
+    .trust-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .trust-tag {
+      background: var(--badge-bg);
+      color: var(--accent);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    /* Main Grid */
+    .container {
+      max-width: 1050px;
+      margin: 0 auto;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 820px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .section-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    /* Fleet Cards */
+    .fleet-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 520px) {
+      .fleet-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .car-card {
+      background: var(--card);
+      border: 1.5px solid var(--card-border);
+      border-radius: 12px;
+      padding: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .car-card:hover {
+      border-color: #374151;
+    }
+
+    .car-card.selected {
+      border-color: var(--accent);
+      background: linear-gradient(145deg, #172030 0%, #121824 100%);
+      box-shadow: 0 0 0 1px var(--accent);
+    }
+
+    .car-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 6px;
+    }
+
+    .car-cat {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .car-badge {
+      background: var(--badge-bg);
+      color: var(--accent);
+      font-size: 0.68rem;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+
+    .car-name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .car-specs {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .car-price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-top: 1px solid var(--card-border);
+      padding-top: 8px;
+    }
+
+    .car-price {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .car-price small {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    .select-indicator {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    /* Calculator Box */
+    .calc-box {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 18px;
+      height: fit-content;
+      position: sticky;
+      top: 76px;
+    }
+
+    .form-group {
+      margin-bottom: 13px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+
+    input, select {
+      width: 100%;
+      background: #0d131d;
+      border: 1px solid var(--card-border);
+      color: #fff;
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--accent);
+    }
+
+    .row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .day-pills {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .day-pill {
+      flex: 1;
+      background: #0d131d;
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      padding: 5px 0;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .day-pill:hover {
+      border-color: var(--accent);
+    }
+
+    .summary {
+      background: #0d131d;
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 13px;
+      margin: 14px 0;
+    }
+
+    .sum-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.84rem;
+      margin-bottom: 6px;
+      color: var(--muted);
+    }
+
+    .sum-row.discount {
+      color: var(--whatsapp);
+      font-weight: 600;
+    }
+
+    .sum-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px dashed var(--card-border);
+      padding-top: 9px;
+      margin-top: 6px;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .sum-total span:last-child {
+      color: var(--accent);
+      font-size: 1.25rem;
+    }
+
+    .check-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 14px;
+      cursor: pointer;
+    }
+
+    .check-row input {
+      width: auto;
+      margin-top: 3px;
+      accent-color: var(--accent);
+    }
+
+    .btn-wa {
+      width: 100%;
+      background: var(--whatsapp);
+      color: #062110;
+      border: none;
+      padding: 13px 16px;
+      border-radius: 10px;
+      font-size: 0.96rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.2s ease;
+    }
+
+    .btn-wa:hover {
+      background: var(--whatsapp-dark);
+    }
+
+    .demo-note {
+      text-align: center;
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    /* Footer */
+    .site-footer {
+      max-width: 1050px;
+      margin: 30px auto 0;
+      padding: 0 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .admin-trigger {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 0.75rem;
+      text-decoration: underline;
+    }
+
+    .admin-trigger:hover {
+      color: var(--accent);
+    }
+
+    /* Admin Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      overflow-y: auto;
+    }
+
+    .modal-box {
+      background: var(--card);
+      border: 1px solid var(--accent);
+      border-radius: 12px;
+      padding: 20px;
+      width: 100%;
+      max-width: 480px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-box h3 {
+      font-size: 1.15rem;
+      margin-bottom: 6px;
+      color: var(--accent);
+    }
+
+    .modal-box p {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .modal-section-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin: 14px 0 8px 0;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 4px;
+      text-transform: uppercase;
+    }
+
+    .car-edit-row {
+      background: #0d131d;
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 8px;
+    }
+
+    .car-edit-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #fff;
+    }
+
+    .car-edit-inputs {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 8px;
+    }
+
+    .modal-btns {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .btn-primary {
+      flex: 1;
+      background: var(--accent);
+      color: #0b0f17;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .btn-secondary {
+      flex: 1;
+      background: #1f2a3d;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .success-alert {
+      background: rgba(37, 211, 102, 0.15);
+      color: var(--whatsapp);
+      border: 1px solid var(--whatsapp);
+      padding: 8px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      margin-top: 10px;
+      text-align: center;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav-wrap">
+      <div class="brand" id="brandHeader">APEX DRIVE <span>DUBAI</span></div>
+      <div class="status-pill">● 24/7 Instant WhatsApp Quote</div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h1>Book Your Car in Dubai in 30 Seconds</h1>
+    <p>Select your vehicle, check instant daily/weekly discounted rates, and send your booking directly to our dispatch team.</p>
+    <div class="trust-bar">
+      <span class="trust-tag">✓ 30-Min Dubai Delivery</span>
+      <span class="trust-tag">✓ Comprehensive Insurance Included</span>
+      <span class="trust-tag">✓ 250 KM / Day Free</span>
+      <span class="trust-tag">✓ Zero Hidden Fees</span>
+    </div>
+  </section>
+
+  <main class="container">
+    <div>
+      <div class="section-title">1. Choose Your Vehicle</div>
+      <div class="fleet-grid" id="fleetGrid"></div>
+    </div>
+
+    <div class="calc-box">
+      <div class="section-title">2. Instant Quote & Booking</div>
+
+      <div class="form-group">
+        <label>Selected Vehicle</label>
+        <input type="text" id="selectedCarInput" readonly />
+      </div>
+
+      <div class="row-2">
+        <div class="form-group">
+          <label>Pickup Date</label>
+          <input type="date" id="pickupDate" />
+        </div>
+        <div class="form-group">
+          <label>Rental Days</label>
+          <input type="number" id="rentalDays" min="1" max="90" value="3" />
+          <div class="day-pills">
+            <div class="day-pill" onclick="setDays(1)">1D</div>
+            <div class="day-pill" onclick="setDays(3)">3D</div>
+            <div class="day-pill" onclick="setDays(7)">7D (-15%)</div>
+            <div class="day-pill" onclick="setDays(30)">30D (-30%)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Delivery / Pickup Location (Dubai)</label>
+        <select id="deliveryArea" onchange="calculateTotal()">
+          <option value="0">Free Pickup — Al Quoz / Business Bay Office</option>
+          <option value="0">Free Delivery — Dubai Marina / JBR</option>
+          <option value="0">Free Delivery — Downtown / DIFC</option>
+          <option value="0">Free Delivery — Deira / Bur Dubai</option>
+          <option value="50">DXB Airport Terminal 1/2/3 Meet & Greet (+AED 50)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Your Full Name</label>
+        <input type="text" id="customerName" placeholder="e.g. Tariq Al Mansoori" />
+      </div>
+
+      <div class="summary">
+        <div class="sum-row">
+          <span>Base Rate (<span id="sumDays">3</span> days × AED <span id="sumDailyRate">0</span>)</span>
+          <span id="sumBase">AED 0</span>
+        </div>
+        <div class="sum-row discount" id="discountRow" style="display:none;">
+          <span id="discountLabel">Duration Discount</span>
+          <span id="sumDiscount">- AED 0</span>
+        </div>
+        <div class="sum-row">
+          <span>Delivery Fee</span>
+          <span id="sumDelivery">AED 0</span>
+        </div>
+        <div class="sum-row">
+          <span>VAT (5% UAE)</span>
+          <span id="sumVat">AED 0</span>
+        </div>
+        <div class="sum-row">
+          <span>Refundable Security Deposit</span>
+          <span id="sumDeposit">AED 1,000</span>
+        </div>
+        <div class="sum-total">
+          <span>Total Rental (Incl. VAT)</span>
+          <span id="sumTotal">AED 0</span>
+        </div>
+      </div>
+
+      <label class="check-row">
+        <input type="checkbox" id="docsReady" checked />
+        <span>I have valid UAE Driving License + Emirates ID ready to share on WhatsApp.</span>
+      </label>
+
+      <button class="btn-wa" onclick="sendWhatsAppBooking()">
+        <span>Confirm & Send Quote on WhatsApp</span>
+      </button>
+      <div class="demo-note">Instant auto-formatted inquiry • No advance payment required</div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div id="footerText">© 2026 Apex Drive Car Rental LLC, Dubai. All rights reserved.</div>
+    <button class="admin-trigger" onclick="openAdminModal()">Admin Settings</button>
+  </footer>
+
+  <!-- Admin Secret Modal with Name & Price Editing -->
+  <div class="modal-overlay" id="adminModal">
+    <div class="modal-box">
+      <h3>Admin Control Panel</h3>
+      <p>Enter PIN <strong>786</strong> to update company details, WhatsApp number, and car rates.</p>
+      
+      <div class="form-group">
+        <label>Admin PIN</label>
+        <input type="password" id="adminPin" placeholder="Enter PIN (786)" />
+      </div>
+
+      <div class="form-group">
+        <label>Company / Brand Name</label>
+        <input type="text" id="adminCompanyName" placeholder="e.g. Apex Drive Dubai" />
+      </div>
+
+      <div class="form-group">
+        <label>Target WhatsApp Number (With Country Code)</label>
+        <input type="text" id="adminWhatsappInput" placeholder="e.g. 971501234567" />
+      </div>
+
+      <div class="modal-section-title">Update Fleet Names & Daily Prices (AED)</div>
+      <div id="adminFleetEditor"></div>
+
+      <div class="success-alert" id="successAlert">✓ Settings saved successfully!</div>
+
+      <div class="modal-btns">
+        <button class="btn-secondary" onclick="closeAdminModal()">Cancel</button>
+        <button class="btn-primary" onclick="saveAdminSettings()">Save All Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Load Saved Settings or Defaults
+    let savedCompanyName = localStorage.getItem("apex_company_name") || "APEX DRIVE DUBAI";
+    let savedWhatsApp = localStorage.getItem("apex_admin_wa") || "971500000000";
+
+    let defaultFleet = [
+      { id: 1, category: "Economy Sedan", badge: "Most Booked", name: "Nissan Sunny 2025", specs: "Automatic • 5 Seats • Fuel Saver • Apple CarPlay", dailyRate: 110, deposit: 1000 },
+      { id: 2, category: "Compact Crossover", badge: "Best Value", name: "Kia Seltos 2025", specs: "Automatic • 5 Seats • Rear Camera • Cruise Control", dailyRate: 165, deposit: 1000 },
+      { id: 3, category: "Mid-Size SUV", badge: "Family Choice", name: "Mitsubishi Montero Sport", specs: "7 Seats • 4WD • Leather Interior • Bluetooth", dailyRate: 240, deposit: 1500 },
+      { id: 4, category: "Executive Sedan", badge: "Business", name: "Mercedes-Benz C200 AMG", specs: "2025 Model • Panoramic Roof • Ambient Lighting", dailyRate: 450, deposit: 2500 },
+      { id: 5, category: "Full-Size Luxury SUV", badge: "VIP Dubai", name: "Nissan Patrol Platinum V8", specs: "7 Seats • V8 Power • Cool Box • 360° Camera", dailyRate: 520, deposit: 2500 },
+      { id: 6, category: "Sports / Convertible", badge: "Weekend Special", name: "Ford Mustang EcoBoost", specs: "Convertible • Active Exhaust • Digital Cockpit", dailyRate: 480, deposit: 3000 }
+    ];
+
+    let fleetData = JSON.parse(localStorage.getItem("apex_fleet_data")) || defaultFleet;
+    let selectedCar = fleetData[0];
+
+    // Apply Saved Brand Name on Load
+    function applyBranding() {
+      const parts = savedCompanyName.split(" ");
+      const first = parts[0] || "APEX";
+      const rest = parts.slice(1).join(" ") || "DRIVE DUBAI";
+      document.getElementById("brandHeader").innerHTML = `${first} <span>${rest}</span>`;
+      document.getElementById("pageTitle").textContent = `${savedCompanyName} — Instant Car Rental & WhatsApp Booking`;
+      document.getElementById("footerText").textContent = `© 2026 ${savedCompanyName}, Dubai. All rights reserved.`;
+    }
+    applyBranding();
+
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    document.getElementById("pickupDate").value = tomorrow.toISOString().split("T")[0];
+
+    function renderFleet() {
+      const grid = document.getElementById("fleetGrid");
+      grid.innerHTML = fleetData.map(car => `
+        <div class="car-card ${car.id === selectedCar.id ? "selected" : ""}" onclick="selectCar(${car.id})">
+          <div class="car-top">
+            <span class="car-cat">${car.category}</span>
+            <span class="car-badge">${car.badge}</span>
+          </div>
+          <div class="car-name">${car.name}</div>
+          <div class="car-specs">${car.specs}</div>
+          <div class="car-price-row">
+            <div class="car-price">AED ${car.dailyRate} <small>/ day</small></div>
+            <div class="select-indicator">${car.id === selectedCar.id ? "✓ Selected" : "Select →"}</div>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function selectCar(id) {
+      selectedCar = fleetData.find(c => c.id === id);
+      document.getElementById("selectedCarInput").value = `${selectedCar.name} (AED ${selectedCar.dailyRate}/day)`;
+      renderFleet();
+      calculateTotal();
+    }
+
+    function setDays(days) {
+      document.getElementById("rentalDays").value = days;
+      calculateTotal();
+    }
+
+    function calculateTotal() {
+      const days = Math.max(1, parseInt(document.getElementById("rentalDays").value) || 1);
+      const deliveryFee = parseFloat(document.getElementById("deliveryArea").value) || 0;
+      const baseAmount = selectedCar.dailyRate * days;
+
+      let discountPercent = 0;
+      if (days >= 30) {
+        discountPercent = 30;
+      } else if (days >= 7) {
+        discountPercent = 15;
+      }
+
+      const discountAmount = Math.round(baseAmount * (discountPercent / 100));
+      const subtotalAfterDiscount = baseAmount - discountAmount + deliveryFee;
+      const vatAmount = Math.round(subtotalAfterDiscount * 0.05);
+      const grandTotal = subtotalAfterDiscount + vatAmount;
+
+      document.getElementById("sumDays").textContent = days;
+      document.getElementById("sumDailyRate").textContent = selectedCar.dailyRate;
+      document.getElementById("sumBase").textContent = `AED ${baseAmount.toLocaleString()}`;
+
+      const discountRow = document.getElementById("discountRow");
+      if (discountPercent > 0) {
+        discountRow.style.display = "flex";
+        document.getElementById("discountLabel").textContent = `${days >= 30 ? "Monthly" : "Weekly"} Discount (${discountPercent}% OFF)`;
+        document.getElementById("sumDiscount").textContent = `- AED ${discountAmount.toLocaleString()}`;
+      } else {
+        discountRow.style.display = "none";
+      }
+
+      document.getElementById("sumDelivery").textContent = deliveryFee === 0 ? "FREE" : `AED ${deliveryFee}`;
+      document.getElementById("sumVat").textContent = `AED ${vatAmount.toLocaleString()}`;
+      document.getElementById("sumDeposit").textContent = `AED ${selectedCar.deposit.toLocaleString()}`;
+      document.getElementById("sumTotal").textContent = `AED ${grandTotal.toLocaleString()}`;
+
+      return { days, baseAmount, discountPercent, discountAmount, deliveryFee, vatAmount, grandTotal };
+    }
+
+    function sendWhatsAppBooking() {
+      const name = document.getElementById("customerName").value.trim() || "Valued Customer";
+      const pickupDate = document.getElementById("pickupDate").value || "Flexible";
+      const areaSelect = document.getElementById("deliveryArea");
+      const areaText = areaSelect.options[areaSelect.selectedIndex].text.split("—")[1]?.trim() || "Office Pickup";
+      const docsReady = document.getElementById("docsReady").checked ? "Yes (Ready to share)" : "Will share shortly";
+      const calc = calculateTotal();
+      const currentCompanyName = localStorage.getItem("apex_company_name") || "APEX DRIVE DUBAI";
+
+      const message =
+`Assalam-o-Alaikum *${currentCompanyName}*! I want to confirm this car rental quote:
+
+*Customer:* ${name}
+*Vehicle:* ${selectedCar.name}
+*Pickup Date:* ${pickupDate}
+*Duration:* ${calc.days} Day(s) ${calc.discountPercent > 0 ? `(${calc.discountPercent}% Discount Applied)` : ""}
+*Location:* ${areaText}
+
+*Quote Breakdown:*
+• Base Rental: AED ${calc.baseAmount}
+${calc.discountAmount > 0 ? `• Discount: -AED ${calc.discountAmount}\n` : ""}• Delivery: ${calc.deliveryFee === 0 ? "FREE" : "AED " + calc.deliveryFee}
+• 5% UAE VAT: AED ${calc.vatAmount}
+• *Total Payable: AED ${calc.grandTotal}*
+• Refundable Deposit: AED ${selectedCar.deposit}
+
+*License & ID Ready:* ${docsReady}
+
+Please confirm availability so I can share my documents.`;
+
+      const targetNumber = localStorage.getItem("apex_admin_wa") || savedWhatsApp;
+      const url = `https://wa.me/${targetNumber}?text=${encodeURIComponent(message)}`;
+      window.open(url, "_blank");
+    }
+
+    // Admin Panel Logic
+    function openAdminModal() {
+      document.getElementById("adminPin").value = "";
+      document.getElementById("adminCompanyName").value = localStorage.getItem("apex_company_name") || savedCompanyName;
+      document.getElementById("adminWhatsappInput").value = localStorage.getItem("apex_admin_wa") || savedWhatsApp;
+      document.getElementById("successAlert").style.display = "none";
+
+      // Render editable car fields inside modal
+      const editorDiv = document.getElementById("adminFleetEditor");
+      editorDiv.innerHTML = fleetData.map((car, index) => `
+        <div class="car-edit-row">
+          <div class="car-edit-title">#${index + 1} Car</div>
+          <div class="form-group" style="margin-bottom:6px;">
+            <label style="font-size:0.72rem;">Vehicle Name</label>
+            <input type="text" id="edit_name_${index}" value="${car.name}" />
+          </div>
+          <div class="car-edit-inputs">
+            <div>
+              <label style="font-size:0.72rem;">Daily Rate (AED)</label>
+              <input type="number" id="edit_price_${index}" value="${car.dailyRate}" />
+            </div>
+            <div>
+              <label style="font-size:0.72rem;">Deposit (AED)</label>
+              <input type="number" id="edit_dep_${index}" value="${car.deposit}" />
+            </div>
+          </div>
+        </div>
+      `).join("");
+
+      document.getElementById("adminModal").style.display = "flex";
+    }
+
+    function closeAdminModal() {
+      document.getElementById("adminModal").style.display = "none";
+    }
+
+    function saveAdminSettings() {
+      const pin = document.getElementById("adminPin").value.trim();
+      if (pin !== "786") {
+        alert("Incorrect Admin PIN! (Default PIN is 786)");
+        return;
+      }
+
+      const newCompany = document.getElementById("adminCompanyName").value.trim();
+      const newWa = document.getElementById("adminWhatsappInput").value.trim();
+
+      if (!newCompany || !newWa || newWa.length < 8) {
+        alert("Please enter a valid Company Name and WhatsApp number.");
+        return;
+      }
+
+      // Save Name & WhatsApp
+      localStorage.setItem("apex_company_name", newCompany);
+      localStorage.setItem("apex_admin_wa", newWa);
+      savedCompanyName = newCompany;
+      savedWhatsApp = newWa;
+      applyBranding();
+
+      // Save Updated Fleet Prices & Names
+      fleetData.forEach((car, index) => {
+        const updatedName = document.getElementById(`edit_name_${index}`).value.trim();
+        const updatedPrice = parseFloat(document.getElementById(`edit_price_${index}`).value) || car.dailyRate;
+        const updatedDep = parseFloat(document.getElementById(`edit_dep_${index}`).value) || car.deposit;
+
+        if (updatedName) car.name = updatedName;
+        car.dailyRate = updatedPrice;
+        car.deposit = updatedDep;
+      });
+
+      localStorage.setItem("apex_fleet_data", JSON.stringify(fleetData));
+      selectCar(selectedCar.id); // Refresh view
+
+      const alertBox = document.getElementById("successAlert");
+      alertBox.style.display = "block";
+
+      setTimeout(() => {
+        closeAdminModal();
+      }, 1200);
+    }
+
+    document.getElementById("rentalDays").addEventListener("input", calculateTotal);
+    selectCar(1);
+  </script>
+</body>
+</html>
